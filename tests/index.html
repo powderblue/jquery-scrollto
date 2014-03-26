@@ -4,12 +4,14 @@
         <title>jquery-scrollto</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
-        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script src="../jquery.scrollto.js"></script>
+        <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.14.0.css"/>
     </head>
 
     <body>
-        <p id="top_target"><strong>Top target</strong></p>
+        <div id="qunit"></div>
+
+        <div id="qunit-fixture"></div>
+
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis bibendum est ac dictum. Sed sit amet tincidunt justo, nec feugiat magna. Nunc id ultrices augue. Aliquam blandit sagittis justo sed fermentum. Quisque suscipit metus neque. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed convallis metus lectus, eget dignissim dui varius id. Integer tincidunt metus quis urna tincidunt, ut egestas arcu aliquet. Etiam sit amet adipiscing lacus. Aenean ut nisi varius, posuere odio sed, congue nisl. Ut mollis faucibus gravida. Pellentesque sollicitudin nunc sed nisi dignissim rutrum. Mauris cursus ut dolor nec adipiscing.</p>
         <p>Sed in dui ipsum. Suspendisse rutrum, urna in imperdiet condimentum, erat nibh consequat nunc, id blandit lorem arcu non risus. Pellentesque venenatis metus id malesuada feugiat. Nulla commodo sapien est, eu convallis mauris porta vel. Nam tincidunt, urna at bibendum tristique, lorem purus aliquet lectus, vel posuere eros dui quis orci. Sed tellus erat, elementum vel erat et, placerat egestas arcu. Integer placerat id enim id tincidunt. Praesent blandit est sagittis velit mollis hendrerit. Quisque commodo neque quis ante placerat, et vehicula lacus lobortis. In tristique sapien a tellus faucibus sagittis. Quisque sagittis ligula lacus, quis sagittis libero bibendum vel. Sed non diam ac ipsum pellentesque interdum. Curabitur condimentum massa tellus, in euismod risus porta non. Cras quis suscipit quam. In sollicitudin accumsan gravida.</p>
         <p>Nullam eget pulvinar nisi. Vestibulum ut malesuada purus, eu eleifend augue. Nunc quis ante quis quam condimentum viverra eget in arcu. Etiam lobortis hendrerit justo nec gravida. Quisque placerat posuere dui, ac pretium tellus molestie vitae. Aliquam erat volutpat. Morbi varius lectus at malesuada vestibulum. Donec elementum ligula id nibh blandit ultrices. In est magna, vestibulum a metus sit amet, interdum vulputate nibh. Morbi eu fringilla magna. Phasellus ante purus, dignissim sit amet nibh non, bibendum sagittis nisl. Etiam consectetur mi vel eros feugiat molestie. Proin porta arcu quis elit semper aliquet. Phasellus interdum eros et odio hendrerit, at porttitor quam mollis.</p>
@@ -22,19 +24,36 @@
         <p>Duis molestie facilisis justo in sollicitudin. Nunc ut pretium lacus, id accumsan urna. In libero lorem, blandit sed semper laoreet, dignissim in massa. Integer interdum, quam a tempor convallis, lacus sapien faucibus quam, vel euismod felis enim a libero. Nulla libero orci, malesuada a dapibus quis, euismod at urna. Sed sed vehicula neque. Donec sed porta justo. Phasellus porta condimentum neque non laoreet. Praesent at dui faucibus, ornare lacus eu, aliquam quam. Duis sit amet nisl vitae sapien tempor vulputate. In sit amet nisi lacus.</p>
         <p>Praesent a posuere elit. Suspendisse velit dui, bibendum id odio et, imperdiet imperdiet ante. Praesent adipiscing vehicula volutpat. Vivamus a feugiat felis. Nullam faucibus, odio eu semper vehicula, diam tellus suscipit est, sed euismod mauris magna ut augue. Nunc pretium augue eget arcu pharetra, sit amet porta metus suscipit. Sed eget ante vel est cursus tempus sit amet vitae odio. Cras tincidunt sem a scelerisque elementum. Aliquam ultrices elementum euismod. Pellentesque arcu sapien, pulvinar consectetur aliquet a, accumsan ut lectus. Etiam vitae varius nibh. Nulla placerat egestas sem, ut suscipit erat semper et. Aenean auctor risus at felis lacinia, fermentum suscipit est feugiat.</p>
         <p>Morbi egestas consequat nulla tempor mattis. Suspendisse nec orci ac nisl pulvinar porttitor et in magna. Quisque scelerisque, eros aliquam pharetra mollis, enim augue lobortis risus, quis rutrum tellus velit ac magna. Aliquam massa odio, mattis ut lacinia non, elementum at odio. Nulla facilisi. Vivamus ac tempor dolor, eget consectetur lectus. Curabitur vulputate nisi molestie felis egestas consequat. Donec facilisis nunc nec lobortis adipiscing. Integer ultrices vitae leo vitae ullamcorper. Ut eget auctor ipsum. Vivamus in gravida leo, a ultrices enim. Mauris lacinia, urna a suscipit lobortis, tortor tellus scelerisque purus, a ullamcorper ipsum nunc eget urna.</p>
-        <p id="bottom_target"><strong>Bottom target</strong></p>
 
-<script type="text/javascript">
-/*globals jQuery, document, window*/
+        <script src="http://code.jquery.com/qunit/qunit-1.14.0.js"></script>
 
-jQuery(document).ready(function () {
-    jQuery('#bottom_target').scrollTo({complete: function () {
-        window.alert('At bottom');
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="../jquery.scrollto.js"></script>
 
-        jQuery('#top_target').scrollTo({complete: function () {
-            window.alert('At top');
-        }});
+<script>
+/*globals QUnit, jQuery, window*/
+
+jQuery('p:last').scrollTo({complete: function () {
+    window.alert('At bottom');
+
+    jQuery('p:first').scrollTo({complete: function () {
+        window.alert('At top');
     }});
+}});
+
+QUnit.test("Returns the called jQuery", function (assert) {
+    var oExpectedEl,
+        oReturnedEl;
+
+    oExpectedEl = jQuery();
+    oReturnedEl = oExpectedEl.scrollTo();
+    assert.ok(oReturnedEl instanceof jQuery);
+    assert.strictEqual(oReturnedEl.size(), 0);
+
+    oExpectedEl = jQuery('#qunit');
+    oReturnedEl = oExpectedEl.scrollTo();
+    assert.ok(oReturnedEl instanceof jQuery);
+    assert.ok(oReturnedEl.is(oExpectedEl));
 });
 </script>
     </body>

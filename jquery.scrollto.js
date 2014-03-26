@@ -12,7 +12,7 @@ jQuery.fn.extend({
      */
     scrollTo: function (oOptions) {
         var oFinalOptions = jQuery.extend({
-                duration: 1000,
+                duration: 500,
                 verticalOffset: 0,
                 complete: undefined
             }, oOptions || {}),
@@ -31,5 +31,7 @@ jQuery.fn.extend({
             duration: oFinalOptions.duration,
             complete: oFinalOptions.complete
         });
+
+        return this;
     }
 });
